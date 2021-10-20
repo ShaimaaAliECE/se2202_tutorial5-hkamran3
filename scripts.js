@@ -2,28 +2,29 @@ let nextPlayer = 'X'; // takes a value of either 'X' or 'O' according to the gam
 
 //initialize the game
 
+
 // use the value stored in the nextPlayer variable to indicate who the next player is
-let lableSwitch = document.getElementById("next-lbl");
-lableSwitch.innerHTML = nextPlayer;
+let nextPlayerL = document.querySelector("#next-lbl");
+nextPlayerL.innerHTML = nextPlayer;
 
 //This call will create the buttons needed for the gameboard.
 createGameBoard()
 
 function createGameBoard()
 {
-    // Programatically add a button with square brackets enclosing an empty space to each cell in the gameboard
-    var cell = document.querySelectorAll("td");
+    let cells = document.querySelectorAll("td");
+    let squareBrackets = `<button id='edit-btn'>[ ]</button>`;
     
-    for(let i = 1; i <= cell.length; i++){
-        let btn = document.createElement("button");
-        btn.innerHTML = "[ ]";
-        btn.id = "b"+i;
-        
-    document.getElementById(cell[i-1].getAttribute("id")).appendChild(btn);
+
+    for(let i = 0;i < cells.length;i++){
+       cells[i].innerHTML = squareBrackets;
     }
 
-   
 }
+    // Programatically add a button with square brackets enclosing an empty space to each cell in the gameboard
+   
+
+   
 
 // Programatically add 'takeCell' as an event listener to all the buttons on the board
 let btns = document.querySelectorAll('button');
@@ -35,69 +36,57 @@ for (let i=0; i<btns.length; i++)
 // This function will be used to respond to a click event on any of the board buttons.
 function takeCell(event)
 {
-    
- // When the button is clicked, the space inside its square brackets is replaced by the value in the nextPlayer before switching it
-      // Make sure the button is clickable only once (I didn't mention how to do that, look it up 🙂 )
-    event.target.innerHTML = nextPlayer;
-    document.getElementById(event.target.id).disabled = true;
+    let clickbtn = event.target;
+
+    /*
+        When the button is clicked, the space inside its square brackets is replaced by the value in the nextPlayer before switching it
+    */
+    if(clickbtn.innerText === "[ ]"){
+
+        if (nextPlayer === 'X'){
+            clickbtn.innerText = "[" + nextPlayer + "]";
+            nextPlayer = "O";
+            clickbtn.disabled = true;
+            nextPlayerL.innerHTML = nextPlayer;
+        }
+
+        else if (nextPlayer === 'O'){
+
+            clickbtn.innerText = "[" + nextPlayer + "]";
+            nextPlayer = 'X';
+            clickbtn.disabled = true;
+            nextPlayerL.innerHTML = nextPlayer;
+
+        }
+    }
+
+    // Make sure the button is clickable only once (I didn't mention how to do that, look it up :) )
 
     // Check if the game is over
-     // let the lable with the id 'game-over-lbl' display the words 'Game Over' inside <h1> element
     if (isGameOver())
     {
-    document.getElementById("game-over-lbl").innerHTML = "Game Over";
+        let gameOverL = document.querySelector("#game-over-lbl");
+        gameOverL.innerHTML = `<h1>Game Over</h1>`;
+        // let the lable with the id 'game-over-lbl' display the words 'Game Over' inside <h1> element
     }
 
-    
-    if(nextPlayer == b1.innerHTML &&nextPlayer == b2.innerHTML && nextPlayer == b3.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b4.innerHTML && nextPlayer == b5.innerHTML && nextPlayer == b6.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b7.innerHTML && nextPlayer == b8.innerHTML && nextPlayer == b9.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b1.innerHTML && nextPlayer == b4.innerHTML && nextPlayer == b7.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b2.innerHTML && nextPlayer == b5.innerHTML && nextPlayer == b8.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b3.innerHTML && nextPlayer == b6.innerHTML && nextPlayer == b9.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b1.innerHTML && nextPlayer == b5.innerHTML && nextPlayer == b9.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    } else if(nextPlayer == b3.innerHTML && nextPlayer == b5.innerHTML && nextPlayer == b7.innerHTML){
-        alert("Player "+nextPlayer+" has won! Refresh the page to play again!")
-
-    }
-    
-
-    //Switches the next player
-    if (nextPlayer === "X"){
-        nextPlayer = "O";
-    } else {
-        nextPlayer = "X";
-    }
-    lableSwitch.innerHTML = nextPlayer;
-    
+    // I'll leave declaring the winner for your intrinsic motivation, it's not required for this assignment 
 }
 
 function isGameOver()
 {
-    // This function returns true if all the buttons are disabled and false otherwise 
-    var clickedBtn = document.querySelectorAll("button");
-    for(let i = 0; i < clickedBtn.length; i++){
-        if(document.getElementById(clickedBtn[i].getAttribute("id")).disabled == false){
-            return false;
-        }
-    }
-    
-    return true;
-
+   let disbtnscnt = 0;
+   for (i in btns){
+       if(btns[i].disabled === true){
+           disbtnscnt++;
+       }
+   }
+   if (disbtnscnt == 9){
+       return true;
+   }
+   else {
+       return false;
+   } 
+   // This function returns true if all the buttons are disabled and false otherwise 
    
 }
-message_1.txt
