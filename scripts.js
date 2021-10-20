@@ -9,7 +9,7 @@ nextPlayerL.innerHTML = nextPlayer;
 
 //This call will create the buttons needed for the gameboard.
 createGameBoard()
-
+//hh
 function createGameBoard()
 {
     let cells = document.querySelectorAll("td");
